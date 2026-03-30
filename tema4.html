@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tema 04 - Menus e Validações de Dados</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 15px 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .card-header button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+
+    .card-header button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .card-content {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      margin-bottom: 15px;
+      position: relative;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.65rem;
+    }
+
+    .simulador {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .simulador-tela {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 380px;
+      max-height: 380px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin-bottom: 12px;
+    }
+
+    .simulador-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .simulador-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .simulador-input button {
+      padding: 10px 20px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .simulador-input button:hover {
+      background: #7c3aed;
+    }
+
+    .guia {
+      background: #fef9e6;
+      border-left: 5px solid #f59e0b;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 12px;
+    }
+
+    .guia h3 {
+      color: #f59e0b;
+      margin-bottom: 10px;
+    }
+
+    .guia ul {
+      margin-left: 25px;
+      margin-top: 10px;
+    }
+
+    .guia li {
+      margin: 8px 0;
+    }
+
+    .dica {
+      background: #dcfce7;
+      border-left: 4px solid #22c55e;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      padding: 20px;
+    }
+
+    footer a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #22c55e;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 15px;
+      font-size: 0.65rem;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📋 Tema 04: Menus e Validações de Dados</h1>
+      <p>Aprenda a criar menus interativos e validar entradas do usuário</p>
+    </div>
+
+    <div class="guia">
+      <h3>🎯 O que vamos aprender?</h3>
+      <p><strong>Menus</strong> são a porta de entrada para qualquer sistema. Eles permitem que o usuário escolha entre várias opções de forma organizada.</p>
+      <p><strong>Validações</strong> garantem que o programa não quebre quando o usuário digitar algo errado.</p>
+      <p>O comando <strong>ESCOLHA-CASO</strong> é a melhor forma de criar menus no Portugol!</p>
+    </div>
+
+    <!-- Exemplo 1: Calculadora -->
+    <div class="card" style="margin-bottom: 30px;">
+      <div class="card-header">
+        🧮 Calculadora Simples
+        <button onclick="copiarCodigo('codigo1')">📋 Copiar Código</button>
+      </div>
+      <div class="card-content">
+        <div class="badge">✅ Menu com ESCOLHA-CASO e pausa com ENTER</div>
+        <div id="codigo1" class="code-block">
+          <button class="copy-btn" onclick="copiarTexto(this)">Copiar</button>
+          <pre>programa
+{
+    funcao inicio()
+    {
+        inteiro opcao
+        real num1, num2, res
+        cadeia pausa
+        
+        faca
+        {
+            escreva("\n===== CALCULADORA =====\n")
+            escreva("1 - SOMA\n")
+            escreva("2 - SUBTRAÇÃO\n")
+            escreva("3 - SAIR\n")
+            escreva("=======================\n")
+            escreva("Opção: ")
+            leia(opcao)
+            
+            escolha(opcao)
+            {
+                caso 1:
+                    escreva("Digite o 1º número: ")
+                    leia(num1)
+                    escreva("Digite o 2º número: ")
+                    leia(num2)
+                    res = num1 + num2
+                    escreva("\nResultado: ", num1, " + ", num2, " = ", res, "\n")
+                pare
+                
+                caso 2:
+                    escreva("Digite o 1º número: ")
+                    leia(num1)
+                    escreva("Digite o 2º número: ")
+                    leia(num2)
+                    res = num1 - num2
+                    escreva("\nResultado: ", num1, " - ", num2, " = ", res, "\n")
+                pare
+                
+                caso 3:
+                    escreva("\nPrograma encerrado!\n")
+                pare
+                
+                caso contrario:
+                    escreva("\n❌ OPÇÃO INVÁLIDA! Digite 1, 2 ou 3.\n")
+            }
+            
+            se (opcao != 3)
+            {
+                escreva("\nPressione ENTER para continuar...")
+                leia(pausa)
+            }
+            
+        } enquanto (opcao != 3)
+    }
+}</pre>
+        </div>
+
+        <div class="simulador">
+          <div class="simulador-tela" id="telaCalc">
+===== CALCULADORA =====
+1 - SOMA
+2 - SUBTRAÇÃO
+3 - SAIR
+=======================
+Opção: 
+          </div>
+          <div class="simulador-input">
+            <input type="text" id="inputCalc" placeholder="Digite sua resposta..." autocomplete="off">
+            <button onclick="processarCalc()">▶ ENTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exemplo 2: Cardápio -->
+    <div class="card" style="margin-bottom: 30px;">
+      <div class="card-header">
+        🍔 Cardápio da Lanchonete
+        <button onclick="copiarCodigo('codigo2')">📋 Copiar Código</button>
+      </div>
+      <div class="card-content">
+        <div class="badge">✅ Menu com acumulador e validação</div>
+        <div id="codigo2" class="code-block">
+          <button class="copy-btn" onclick="copiarTexto(this)">Copiar</button>
+          <pre>programa
+{
+    funcao inicio()
+    {
+        inteiro opcao
+        real total = 0
+        cadeia pausa
+        
+        faca
+        {
+            escreva("\n===== CARDÁPIO =====\n")
+            escreva("1 - X-Burguer   R$ 15,00\n")
+            escreva("2 - X-Salada    R$ 18,00\n")
+            escreva("3 - X-Bacon     R$ 22,00\n")
+            escreva("4 - FINALIZAR PEDIDO\n")
+            escreva("Total atual: R$ ", total, "\n")
+            escreva("====================\n")
+            escreva("Opção: ")
+            leia(opcao)
+            
+            escolha(opcao)
+            {
+                caso 1:
+                    total = total + 15
+                    escreva("\n✅ X-Burguer adicionado!\n")
+                pare
+                
+                caso 2:
+                    total = total + 18
+                    escreva("\n✅ X-Salada adicionado!\n")
+                pare
+                
+                caso 3:
+                    total = total + 22
+                    escreva("\n✅ X-Bacon adicionado!\n")
+                pare
+                
+                caso 4:
+                    escreva("\n📋 Total do pedido: R$ ", total, "\n")
+                    escreva("Obrigado pela preferência!\n")
+                pare
+                
+                caso contrario:
+                    escreva("\n❌ Opção inválida! Digite 1, 2, 3 ou 4.\n")
+            }
+            
+            se (opcao != 4)
+            {
+                escreva("\nPressione ENTER para continuar...")
+                leia(pausa)
+            }
+            
+        } enquanto (opcao != 4)
+    }
+}</pre>
+        </div>
+
+        <div class="simulador">
+          <div class="simulador-tela" id="telaCardapio">
+===== CARDÁPIO =====
+1 - X-Burguer   R$ 15,00
+2 - X-Salada    R$ 18,00
+3 - X-Bacon     R$ 22,00
+4 - FINALIZAR PEDIDO
+Total atual: R$ 0.00
+====================
+Opção: 
+          </div>
+          <div class="simulador-input">
+            <input type="text" id="inputCardapio" placeholder="Digite sua resposta..." autocomplete="off">
+            <button onclick="processarCardapio()">▶ ENTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exemplo 3: Caixa Eletrônico -->
+    <div class="card" style="margin-bottom: 30px;">
+      <div class="card-header">
+        🏦 Caixa Eletrônico
+        <button onclick="copiarCodigo('codigo3')">📋 Copiar Código</button>
+      </div>
+      <div class="card-content">
+        <div class="badge">✅ Menu com validação de saldo</div>
+        <div id="codigo3" class="code-block">
+          <button class="copy-btn" onclick="copiarTexto(this)">Copiar</button>
+          <pre>programa
+{
+    funcao inicio()
+    {
+        inteiro opcao
+        real saldo = 1000.00
+        real valor
+        cadeia pausa
+        
+        faca
+        {
+            escreva("\n===== CAIXA ELETRÔNICO =====\n")
+            escreva("1 - CONSULTAR SALDO\n")
+            escreva("2 - SACAR\n")
+            escreva("3 - DEPOSITAR\n")
+            escreva("4 - SAIR\n")
+            escreva("===========================\n")
+            escreva("Opção: ")
+            leia(opcao)
+            
+            escolha(opcao)
+            {
+                caso 1:
+                    escreva("\n💰 Saldo atual: R$ ", saldo, "\n")
+                pare
+                
+                caso 2:
+                    escreva("Valor para saque: R$ ")
+                    leia(valor)
+                    se (valor > saldo)
+                    {
+                        escreva("\n❌ Saldo insuficiente!\n")
+                    }
+                    senao
+                    {
+                        saldo = saldo - valor
+                        escreva("\n✅ Saque realizado! Novo saldo: R$ ", saldo, "\n")
+                    }
+                pare
+                
+                caso 3:
+                    escreva("Valor para depósito: R$ ")
+                    leia(valor)
+                    saldo = saldo + valor
+                    escreva("\n✅ Depósito realizado! Novo saldo: R$ ", saldo, "\n")
+                pare
+                
+                caso 4:
+                    escreva("\n👋 Obrigado por usar nosso caixa!\n")
+                pare
+                
+                caso contrario:
+                    escreva("\n❌ Opção inválida! Digite 1, 2, 3 ou 4.\n")
+            }
+            
+            se (opcao != 4)
+            {
+                escreva("\nPressione ENTER para continuar...")
+                leia(pausa)
+            }
+            
+        } enquanto (opcao != 4)
+    }
+}</pre>
+        </div>
+
+        <div class="simulador">
+          <div class="simulador-tela" id="telaBanco">
+===== CAIXA ELETRÔNICO =====
+1 - CONSULTAR SALDO
+2 - SACAR
+3 - DEPOSITAR
+4 - SAIR
+===========================
+Opção: 
+          </div>
+          <div class="simulador-input">
+            <input type="text" id="inputBanco" placeholder="Digite sua resposta..." autocomplete="off">
+            <button onclick="processarBanco()">▶ ENTER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guia">
+      <h3>📌 Resumo: Menus e Validações</h3>
+      <ul>
+        <li><strong>ESCOLHA-CASO</strong> é a estrutura ideal para criar menus com opções fixas</li>
+        <li><strong>Sempre use "pare"</strong> após cada caso para evitar execução em cascata</li>
+        <li><strong>"CASO CONTRARIO"</strong> é o "else" do ESCOLHA-CASO - use para tratar opções inválidas</li>
+        <li><strong>faca...enquanto</strong> mantém o menu em loop até o usuário escolher sair</li>
+        <li><strong>NÃO use "limpa()"</strong> para que o resultado fique visível até o ENTER</li>
+        <li><strong>Use uma variável de pausa</strong> (ex: <code>cadeia pausa</code>) com <code>leia(pausa)</code> para aguardar o ENTER</li>
+      </ul>
+
+      <div class="dica">
+        <strong>💡 Dica Importante:</strong><br>
+        O comando ESCOLHA-CASO não aceita operadores lógicos como ">" ou "&lt;".<br>
+        Use SE/SENÃO para validações de intervalo e ESCOLHA-CASO para opções exatas.
+      </div>
+    </div>
+
+    <footer>
+      <p>📌 Tema 04 - Menus e Validações de Dados</p>
+      <p>Teste os códigos no <a href="https://portugol.dev/" target="_blank">Portugol Web Studio</a> | Copie e cole para praticar!</p>
+    </footer>
+  </div>
+
+  <script>
+    function copiarTexto(botao) {
+      const pre = botao.parentElement.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText);
+      const original = botao.innerText;
+      botao.innerText = '✅ Copiado!';
+      setTimeout(() => botao.innerText = original, 2000);
+    }
+
+    function copiarCodigo(id) {
+      const pre = document.getElementById(id).querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText);
+      alert('✅ Código copiado!');
+    }
+
+    // ========== CALCULADORA ==========
+    let calcEstado = 'menu';
+    let calcOp = null;
+    let calcNum1 = null;
+
+    function mostrarMenuCalc() {
+      document.getElementById('telaCalc').innerHTML = 
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ';
+      calcEstado = 'menu';
+      document.getElementById('inputCalc').value = '';
+      document.getElementById('inputCalc').focus();
+    }
+
+    function mostrarTelaCalc(conteudo) {
+      document.getElementById('telaCalc').innerHTML = conteudo;
+      document.getElementById('inputCalc').value = '';
+      document.getElementById('inputCalc').focus();
+    }
+
+    function processarCalc() {
+      let input = document.getElementById('inputCalc').value.trim();
+
+      if (calcEstado === 'menu') {
+        if (input === '1') {
+          calcOp = 1;
+          calcEstado = 'num1';
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: 1\n' +
+'Digite o 1º número: '
+          );
+        } else if (input === '2') {
+          calcOp = 2;
+          calcEstado = 'num1';
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: 2\n' +
+'Digite o 1º número: '
+          );
+        } else if (input === '3') {
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: 3\n' +
+'\n' +
+'Programa encerrado!\n'
+          );
+          calcEstado = 'fim';
+        } else {
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ' + input + '\n' +
+'\n' +
+'❌ OPÇÃO INVÁLIDA! Digite 1, 2 ou 3.\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          calcEstado = 'pausa';
+        }
+      } else if (calcEstado === 'num1') {
+        calcNum1 = parseFloat(input);
+        if (isNaN(calcNum1)) {
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ' + calcOp + '\n' +
+'Digite o 1º número: ' + input + '\n' +
+'\n' +
+'❌ Número inválido!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          calcEstado = 'pausa';
+        } else {
+          calcEstado = 'num2';
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ' + calcOp + '\n' +
+'Digite o 1º número: ' + calcNum1 + '\n' +
+'Digite o 2º número: '
+          );
+        }
+      } else if (calcEstado === 'num2') {
+        let num2 = parseFloat(input);
+        if (isNaN(num2)) {
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ' + calcOp + '\n' +
+'Digite o 1º número: ' + calcNum1 + '\n' +
+'Digite o 2º número: ' + input + '\n' +
+'\n' +
+'❌ Número inválido!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          calcEstado = 'pausa';
+        } else {
+          let resultado = calcOp === 1 ? calcNum1 + num2 : calcNum1 - num2;
+          let operador = calcOp === 1 ? '+' : '-';
+          mostrarTelaCalc(
+'===== CALCULADORA =====\n' +
+'1 - SOMA\n' +
+'2 - SUBTRAÇÃO\n' +
+'3 - SAIR\n' +
+'=======================\n' +
+'Opção: ' + calcOp + '\n' +
+'Digite o 1º número: ' + calcNum1 + '\n' +
+'Digite o 2º número: ' + num2 + '\n' +
+'\n' +
+'Resultado: ' + calcNum1 + ' ' + operador + ' ' + num2 + ' = ' + resultado + '\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          calcEstado = 'pausa';
+        }
+      } else if (calcEstado === 'pausa') {
+        mostrarMenuCalc();
+      } else if (calcEstado === 'fim') {
+        mostrarMenuCalc();
+      }
+    }
+
+    // ========== CARDÁPIO ==========
+    let cardapioEstado = 'menu';
+    let cardapioTotal = 0;
+
+    function mostrarMenuCardapio() {
+      document.getElementById('telaCardapio').innerHTML = 
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + cardapioTotal.toFixed(2) + '\n' +
+'====================\n' +
+'Opção: ';
+      cardapioEstado = 'menu';
+      document.getElementById('inputCardapio').value = '';
+      document.getElementById('inputCardapio').focus();
+    }
+
+    function mostrarTelaCardapio(conteudo) {
+      document.getElementById('telaCardapio').innerHTML = conteudo;
+      document.getElementById('inputCardapio').value = '';
+      document.getElementById('inputCardapio').focus();
+    }
+
+    function processarCardapio() {
+      let input = document.getElementById('inputCardapio').value.trim();
+
+      if (cardapioEstado === 'menu') {
+        if (input === '1') {
+          cardapioTotal += 15;
+          mostrarTelaCardapio(
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + (cardapioTotal - 15).toFixed(2) + '\n' +
+'====================\n' +
+'Opção: 1\n' +
+'\n' +
+'✅ X-Burguer adicionado!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          cardapioEstado = 'pausa';
+        } else if (input === '2') {
+          cardapioTotal += 18;
+          mostrarTelaCardapio(
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + (cardapioTotal - 18).toFixed(2) + '\n' +
+'====================\n' +
+'Opção: 2\n' +
+'\n' +
+'✅ X-Salada adicionado!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          cardapioEstado = 'pausa';
+        } else if (input === '3') {
+          cardapioTotal += 22;
+          mostrarTelaCardapio(
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + (cardapioTotal - 22).toFixed(2) + '\n' +
+'====================\n' +
+'Opção: 3\n' +
+'\n' +
+'✅ X-Bacon adicionado!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          cardapioEstado = 'pausa';
+        } else if (input === '4') {
+          let totalFinal = cardapioTotal;
+          cardapioTotal = 0;
+          mostrarTelaCardapio(
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + totalFinal.toFixed(2) + '\n' +
+'====================\n' +
+'Opção: 4\n' +
+'\n' +
+'📋 Total do pedido: R$ ' + totalFinal.toFixed(2) + '\n' +
+'Obrigado pela preferência!\n'
+          );
+          cardapioEstado = 'fim';
+        } else {
+          mostrarTelaCardapio(
+'===== CARDÁPIO =====\n' +
+'1 - X-Burguer   R$ 15,00\n' +
+'2 - X-Salada    R$ 18,00\n' +
+'3 - X-Bacon     R$ 22,00\n' +
+'4 - FINALIZAR PEDIDO\n' +
+'Total atual: R$ ' + cardapioTotal.toFixed(2) + '\n' +
+'====================\n' +
+'Opção: ' + input + '\n' +
+'\n' +
+'❌ Opção inválida! Digite 1, 2, 3 ou 4.\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          cardapioEstado = 'pausa';
+        }
+      } else if (cardapioEstado === 'pausa') {
+        mostrarMenuCardapio();
+      } else if (cardapioEstado === 'fim') {
+        mostrarMenuCardapio();
+      }
+    }
+
+    // ========== CAIXA ELETRÔNICO ==========
+    let bancoEstado = 'menu';
+    let bancoSaldo = 1000;
+    let bancoOperacao = null;
+
+    function mostrarMenuBanco() {
+      document.getElementById('telaBanco').innerHTML = 
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: ';
+      bancoEstado = 'menu';
+      document.getElementById('inputBanco').value = '';
+      document.getElementById('inputBanco').focus();
+    }
+
+    function mostrarTelaBanco(conteudo) {
+      document.getElementById('telaBanco').innerHTML = conteudo;
+      document.getElementById('inputBanco').value = '';
+      document.getElementById('inputBanco').focus();
+    }
+
+    function processarBanco() {
+      let input = document.getElementById('inputBanco').value.trim();
+
+      if (bancoEstado === 'menu') {
+        if (input === '1') {
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 1\n' +
+'\n' +
+'💰 Saldo atual: R$ ' + bancoSaldo.toFixed(2) + '\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          bancoEstado = 'pausa';
+        } else if (input === '2') {
+          bancoOperacao = 'saque';
+          bancoEstado = 'valor';
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 2\n' +
+'Valor para saque: R$ '
+          );
+        } else if (input === '3') {
+          bancoOperacao = 'deposito';
+          bancoEstado = 'valor';
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 3\n' +
+'Valor para depósito: R$ '
+          );
+        } else if (input === '4') {
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 4\n' +
+'\n' +
+'👋 Obrigado por usar nosso caixa!\n'
+          );
+          bancoEstado = 'fim';
+        } else {
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: ' + input + '\n' +
+'\n' +
+'❌ Opção inválida! Digite 1, 2, 3 ou 4.\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          bancoEstado = 'pausa';
+        }
+      } else if (bancoEstado === 'valor') {
+        let valor = parseFloat(input);
+        if (isNaN(valor) || valor <= 0) {
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: ' + (bancoOperacao === 'saque' ? '2' : '3') + '\n' +
+'Valor para ' + (bancoOperacao === 'saque' ? 'saque' : 'depósito') + ': R$ ' + input + '\n' +
+'\n' +
+'❌ Valor inválido!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          bancoEstado = 'pausa';
+        } else if (bancoOperacao === 'saque') {
+          if (valor > bancoSaldo) {
+            mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 2\n' +
+'Valor para saque: R$ ' + valor.toFixed(2) + '\n' +
+'\n' +
+'❌ Saldo insuficiente!\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+            );
+          } else {
+            bancoSaldo -= valor;
+            mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 2\n' +
+'Valor para saque: R$ ' + valor.toFixed(2) + '\n' +
+'\n' +
+'✅ Saque realizado! Novo saldo: R$ ' + bancoSaldo.toFixed(2) + '\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+            );
+          }
+          bancoEstado = 'pausa';
+        } else if (bancoOperacao === 'deposito') {
+          bancoSaldo += valor;
+          mostrarTelaBanco(
+'===== CAIXA ELETRÔNICO =====\n' +
+'1 - CONSULTAR SALDO\n' +
+'2 - SACAR\n' +
+'3 - DEPOSITAR\n' +
+'4 - SAIR\n' +
+'===========================\n' +
+'Opção: 3\n' +
+'Valor para depósito: R$ ' + valor.toFixed(2) + '\n' +
+'\n' +
+'✅ Depósito realizado! Novo saldo: R$ ' + bancoSaldo.toFixed(2) + '\n' +
+'\n' +
+'Pressione ENTER para continuar...'
+          );
+          bancoEstado = 'pausa';
+        }
+      } else if (bancoEstado === 'pausa') {
+        mostrarMenuBanco();
+      } else if (bancoEstado === 'fim') {
+        mostrarMenuBanco();
+      }
+    }
+
+    // Enter key support
+    document.getElementById('inputCalc').addEventListener('keypress', e => e.key === 'Enter' && processarCalc());
+    document.getElementById('inputCardapio').addEventListener('keypress', e => e.key === 'Enter' && processarCardapio());
+    document.getElementById('inputBanco').addEventListener('keypress', e => e.key === 'Enter' && processarBanco());
+  </script>
+</body>
+</html>

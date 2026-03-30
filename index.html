@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumário - Tema 04: Menus e Validação</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --accent: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* Menu de Links */
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            border-color: var(--primary);
+            background-color: #f5f3ff;
+            transform: translateX(5px);
+        }
+
+        /* Seção de Instruções GitHub */
+        .instrucoes-container {
+            margin-top: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .github-header {
+            background: #24292f;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .github-body {
+            padding: 20px;
+            background: #fff;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .alerta-envio {
+            background: #fffbeb;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 15px;
+            color: #92400e;
+        }
+
+        .github-passos {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .github-passos li {
+            margin-bottom: 8px;
+        }
+
+        /* Rodapé */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .badge-portugol {
+            background: #e11d48;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        b { color: #000; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>📋 Tema 04: Materiais</h1>
+            <p>Menus e Validação de Dados</p>
+        </div>
+
+        <nav class="menu-links">
+            <a href="tema4.html" class="card-link" target="_blank">📖 1 - Material Interativo</a>
+            <a href="Tema4.pdf" class="card-link" target="_blank">📥 2 - Download do Guia (PDF)</a>
+            <a href="Desafio.pdf" class="card-link" target="_blank">💻 3 - Desafio Web Portugol</a>
+            <a href="Desafio_WebApp.pdf" class="card-link" target="_blank">🌐 4 - Desafio para Web App</a>
+            <a href="teste.html" class="card-link" target="_blank">🧪 5 - Modelo WebApp (Teste)</a>
+        </nav>
+
+        <div class="instrucoes-container">
+            <div class="github-header">
+                <span>☁️ Publicação e Envio (GitHub)</span>
+            </div>
+            <div class="github-body">
+                <div class="alerta-envio">
+                    <strong>📌 Preparação para o Envio:</strong><br>
+                    Crie um repositório chamado <b>tema4</b> e salve dentro dele os arquivos:
+                    <ul>
+                        <li><b>arquivo.por</b> (Seu código do Desafio Portugol)</li>
+                        <li><b>index.html</b> (Seu código do Desafio WebApp)</li>
+                    </ul>
+                </div>
+
+                <strong>🚀 Passo a passo para ativar o link:</strong>
+                <ol class="github-passos">
+                    <li>No repositório <b>tema4</b>, clique em <b>Settings</b> (Configurações).</li>
+                    <li>No menu lateral, clique em <b>Pages</b>.</li>
+                    <li>Em <b>Branch</b>, selecione <b>main</b> e a pasta <b>/ (root)</b>.</li>
+                    <li>Clique em <b>Save</b> e aguarde o deploy.</li>
+                    <li>Acesse seu projeto no link em <i>“Your site is live at...”</i>.</li>
+                </ol>
+            </div>
+        </div>
+
+        <footer>
+            <a href="https://portugol.dev/" class="footer-link" target="_blank">
+                <span class="badge-portugol">Praticar no Portugol.dev</span>
+            </a>
+            <a href="https://forms.gle/T9QSe3PyEpru3t538" class="footer-link" target="_blank">
+                📝 Enviar link do repositório / Atividade
+            </a>
+        </footer>
+    </div>
+
+</body>
+</html>
